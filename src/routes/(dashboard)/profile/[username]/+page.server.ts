@@ -4,6 +4,7 @@ import type { Author } from '$lib/store.js';
 import { redirect } from '@sveltejs/kit';
 import sharp from 'sharp';
 import { readFile } from 'fs/promises';
+import { PUBLIC_SUPABASE_URL } from '$env/static/public';
 
 type Data = {
 	content: string;
@@ -277,7 +278,7 @@ export const actions = {
 			throw error;
 		}
 
-		const imageUrl = 'https://gymsixcdrsdtjpvyjwha.supabase.co/storage/v1/object/public/avatar';
+		const imageUrl = `${PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatar`;
 		console.log('type: ', type);
 		if (type == 'profile' && session) {
 			const { error: err } = await supabase

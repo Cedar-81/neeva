@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 
 // src/routes/login/+page.server.ts
 export const actions = {
@@ -13,7 +13,11 @@ export const actions = {
 
 		const body = Object.fromEntries(await request.formData());
 
-		saveUserDetails(supabase, body, session.user.id);
+		let result: any = await saveUserDetails(supabase, body, session.user.id);
+
+		if (result.body.successful == false) {
+			return fail(500, result);
+		}
 
 		throw redirect(303, '/lens');
 	}
@@ -39,12 +43,21 @@ async function saveUserDetails(supabase: any, body: any, user_id: string) {
 			{
 				firstname: body.firstname as string,
 				lastname: body.lastname as string,
-				username: body.username as string,
+				username: (body.username as string).toLowerCase(),
 				user_id
 			}
 		]);
 
 		if (dbError) {
+			if (dbError.code === '23505') {
+				return {
+					status: 500,
+					body: {
+						successful: false,
+						message: 'The username you entered is already in use, please pick another.'
+					}
+				};
+			}
 			console.error('Error inserting user details:', dbError);
 			return fail(500, { message: 'Error saving user details.', success: false });
 		}

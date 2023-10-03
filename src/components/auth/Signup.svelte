@@ -5,7 +5,7 @@
 </script>
 
 <div class="w-full min-h-[100vh] py-10 flex justify-evenly pt-[4%]">
-    <form method="POST" action="?/register"  class="modal-box ml-0 border-2 border-white/20 flex flex-col lg:flex-row p-0 h-[26rem] !max-w-[50rem]">
+    <form method="POST" action="?/register"  class="modal-box ml-0 border-2 border-white/20 flex flex-col lg:flex-row p-0 min-h-[26rem] !max-w-[50rem]">
         <div class="w-full lg:w-[20rem]">
             <img class="w-full h-full object-cover" src={SignupImage} alt='signup' />
         </div>
