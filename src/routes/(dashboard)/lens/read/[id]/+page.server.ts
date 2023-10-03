@@ -106,7 +106,7 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 		// Fetch data from the Supabase database
 		const { data, error } = await supabase
 			.from('Lens')
-			.select('*, UserDetails (profile_image)')
+			.select('*, UserDetails (profile_image, username)')
 			.eq('published', true);
 
 		// console.log('lens data', data);
@@ -378,5 +378,29 @@ export const actions = {
 		);
 
 		console.log('Followed successfully');
+	},
+
+	view: async ({ request, params, url, locals: { getSession, supabase } }) => {
+		const session = await getSession();
+		const { id } = params;
+		const content = await request.formData();
+
+		if (!session) {
+			// redirect user to login page
+			throw redirect(303, '/auth/signin');
+		}
+
+		let viewCount: string = content.get('view_count') as string;
+
+		console.log('viewcount ', viewCount);
+
+		const { data: user, error: err } = await supabase
+			.from('Lens')
+			.update({ views: parseInt(viewCount) })
+			.eq('id', id);
+
+		if (err) {
+			throw err;
+		}
 	}
 };

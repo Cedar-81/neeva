@@ -31,7 +31,6 @@
 			let author_profile: Author;
 			author_profile = event.new as Author;
 			const is_following = author_profile.followers == null ? false : !(author_profile.followers?.indexOf($personalBio.username) == -1)
-			console.log('inside here ', is_following, author_profile, event)
 			if(author_profile.user_id !== $author.user_id) {
 				personalBio.set(author_profile)
 				return
@@ -41,11 +40,9 @@
 				user_is_following: is_following,
 				lens_progress: $author.lens_progress
 			})
-			console.log('set successfully', $author)
 		}
 	)
 	.subscribe()
-	console.log('outside subscription', $author, $author.followers == null)
 
 </script>
 

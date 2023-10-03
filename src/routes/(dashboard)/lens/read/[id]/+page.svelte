@@ -9,7 +9,6 @@
 	lensComments.set(data.comments)
 	const lensList = data.lens.body.prioritizedLens
 	lens.set(lensList ? lensList : [])
-	console.log('comments', data.comments)
 
 	$supabaseClient.channel('lens_comments_channel')
 	.on(

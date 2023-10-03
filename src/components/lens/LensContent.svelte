@@ -7,6 +7,7 @@
     import LensContentAppBar from "./LensContentAppBar.svelte";
     import { singleLens, user_id } from "$lib/store";
 	import { loading, personalBio, showToastMessage, toastMessage } from "$lib/appStore";
+	import { onMount } from "svelte";
 
     let htmlText = marked.parse($singleLens.content);
     let showComment = false
@@ -14,7 +15,6 @@
     let handleShowComment = () => showComment = !showComment
     let comment = ''
     let owner: Boolean = $singleLens.UserDetails?.user_id == $user_id
-    console.log('owner ', $singleLens.UserDetails?.user_id, $user_id)
 
     const handleComment = () => {
       loading.set(true)
@@ -85,6 +85,26 @@
             showToastMessage();
         })
     }
+
+    onMount(() => {
+      if($singleLens.published == true) {
+        let newViewCount = $singleLens.views ? $singleLens.views++ : 1;
+        const formData = new FormData()
+        formData.append('view_count', `${newViewCount}`)
+
+        fetch('?/view', {
+            method: 'POST', 
+            body: formData
+            
+        })
+        .finally(() => {
+            let message = 'Enjoy your reading ;)'
+            toastMessage.set(message);
+            showToastMessage();
+        })        
+      }
+
+    })
 </script>
 
 

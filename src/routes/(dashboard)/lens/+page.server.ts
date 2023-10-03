@@ -11,7 +11,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 		// Fetch data from the Supabase database
 		const { data, error } = await supabase
 			.from('Lens')
-			.select(`*, UserDetails (profile_image)`)
+			.select(`*, UserDetails (profile_image, username)`)
 			.eq('published', true);
 		console.log('lens data', data);
 

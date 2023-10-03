@@ -5,7 +5,6 @@
 	import Avatar from "../Avatar.svelte";
     export let story: UsersLens;
     export let owner: Boolean
-    console.log(owner)
 </script>
 
 <div class="hover:shadow-xl mx-auto cursor-pointer w-[16rem] lg:w-[15rem] bg-base-200 rounded-lg mt-8 p-4">

@@ -38,7 +38,6 @@
     let responseData: any;
 
       formData.append('details', JSON.stringify(detailFormVal))
-      console.log(detailFormVal);
 
       let submit = fetch('?/save_details', {
           method: 'POST',
@@ -61,8 +60,6 @@
   }
 
   export let redirect_id
-
-  console.log('redirect_id ', redirect_id)
 
   
 </script>

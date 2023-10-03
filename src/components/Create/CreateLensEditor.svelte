@@ -41,7 +41,6 @@
     if (editor) {
       const writtenText = editor.getHTML(); // Get the HTML content
       formData.append('content', writtenText)
-      console.log(writtenText);
 
       let submit = fetch('?/publish', {
           method: 'POST',
@@ -66,7 +65,6 @@
     if (editor) {
       const writtenText = editor.getHTML(); // Get the HTML content
       formData.append('content', writtenText)
-      console.log(writtenText);
 
       let submit = fetch('?/save', {
           method: 'POST',

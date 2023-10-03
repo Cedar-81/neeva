@@ -6,7 +6,6 @@
 
 	export let data
 	personalBio.set(data.userDetails)
-	console.log($personalBio)
 
 </script>
  

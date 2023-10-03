@@ -38,7 +38,6 @@
     
 
     $: updateCharCount();
-    console.log('author is following ', $author.user_is_following)
 
     const handleFollow = () => {
         const formData = new FormData();
@@ -107,7 +106,6 @@
                 maxHeight: type == 'profile' ? 500 : 1000,
                 success(result: File) {
                     compressedImage = result;
-                    console.log('compressed image', compressedImage)
            
                     formData.append('type', type)
                     formData.append('info', compressedImage)
@@ -132,7 +130,6 @@
             
             new Compressor(file, options);
         }
-        console.log(selectedImage)
     }
 
 
@@ -199,61 +196,66 @@
 </dialog> 
     
 
-<div class="w-full px-20 flex flex-col items-center lg:mt-14">
-    <div class="flex flex-col space-x-14 lg:flex-row mx-auto items-center">
-        <form>
-        <label for="imageInput">
-            <div class="relative group transition-all">
-                <div class="w-[130px] h-[130px] border-2 mask mask-hexagon">
-                    <img class="w-full h-full object-cover" src={$author.profile_image} alt={`${$author.username}'s profile'`} />
+<div class="w-full max-w-[96vw] px-20 flex flex-col items-center lg:mt-14">
+    <div class="flex w-full justify-center mt-8">
+        <div class="flex flex-col lg:space-x-14 lg:flex-row mx-auto items-center">
+            <form>
+            <label for="imageInput">
+                <div class="relative group transition-all">
+                    <div class="w-[130px] h-[130px] border-2 mask mask-hexagon">
+                        <img class="w-full h-full object-cover" src={$author.profile_image} alt={`${$author.username}'s profile'`} />
+                    </div>
+                    {#if owner}
+                        <div class="absolute transition-all hidden group-hover:flex cursor-pointer items-center justify-center h-full w-full bg-black/40 top-0 right-0 mask mask-hexagon" ><Pencil class='h-8 w-8 text-accent-focus' /></div>
+                    {/if}
                 </div>
-                {#if owner}
-                    <div class="absolute transition-all hidden group-hover:flex cursor-pointer items-center justify-center h-full w-full bg-black/40 top-0 right-0 mask mask-hexagon" ><Pencil class='h-8 w-8 text-accent-focus' /></div>
-                {/if}
-            </div>
-        </label>
+            </label>
 
-        <input
-            type="file"
-            class="hidden"
-            accept="image/*"
-            name="imageInput"
-            id="imageInput"
-            on:change={(event) => handleFileInputChange(event, 'profile')}
-        /></form>
-    
-        <div class="lg:mt-8 space-y-4">
-            <div class="-space-y-2">
-                <h1 class="text-xl md:text-2xl items-center text-gray-300 flex">{$author.firstname + " " + $author.lastname}
-                    <span class="flex items-center gap-3">
-                        {#if !owner && $author.user_is_following}
-                            <button on:click={handleUnfollow}  class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Unfollow</button>
-                        {/if}
-                        {#if !owner && !$author.user_is_following}
-                            <button on:click={handleFollow} class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Follow</button>
-                        {/if}
-                        {#if owner}
-                            <button on:click={openModal} class="pl-5"><Pencil class='h-5 w-5' /></button>
-                        {/if}
-                    </span>
-                </h1>
-                <h2 class="">@{$author.username}</h2>
-            </div>
-                    
-            <div class="flex space-x-20">
-                <div class="flex items-center justify-center flex-col font-bold">
-                    <h3 class="text-gray-300 md:text-lg">{ $author.followers ? $author.followers?.length : 0}</h3>
-                    <p class="uppercase text-xs font-bold">followers</p>
-                </div>
-                <div class="flex items-center justify-center flex-col font-bold">
-                    <h3 class="text-gray-300 md:text-lg">{$author.following ? $author.following?.length : 0}</h3>
-                    <p class="uppercase text-xs font-bold">following</p>
-                </div>
-            </div>
-        </div>
-          
+            <input
+                type="file"
+                class="hidden"
+                accept="image/*"
+                name="imageInput"
+                id="imageInput"
+                on:change={(event) => handleFileInputChange(event, 'profile')}
+            /></form>
         
-    </div> 
+            <div class="lg:mt-8 mt-4 space-y-4">
+                <div class="-space-y-2">
+                    <h1 class="text-xl md:text-2xl items-center text-gray-300 flex">{$author.firstname + " " + $author.lastname}
+                        <span class="flex items-center gap-3">
+                            {#if !owner && $author.user_is_following}
+                                <button on:click={handleUnfollow}  class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Unfollow</button>
+                            {/if}
+                            {#if !owner && !$author.user_is_following}
+                                <button on:click={handleFollow} class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Follow</button>
+                            {/if}
+                            {#if owner}
+                                <button on:click={openModal} class="pl-5"><Pencil class='h-5 w-5' /></button>
+                            {/if}
+                        </span>
+                    </h1>
+                    <h2 class="">@{$author.username}</h2>
+                </div>
+                 
+                
+                <div class="flex space-x-20">
+                    <div class="flex items-center justify-center flex-col font-bold">
+                        <h3 class="text-gray-300 md:text-lg">{ $author.followers ? $author.followers?.length : 0}</h3>
+                        <p class="uppercase text-xs font-bold">followers</p>
+                    </div>
+                    <div class="flex items-center justify-center flex-col font-bold">
+                        <h3 class="text-gray-300 md:text-lg">{$author.following ? $author.following?.length : 0}</h3>
+                        <p class="uppercase text-xs font-bold">following</p>
+                    </div>
+                </div>                    
+
+            </div>
+            
+            
+        </div>         
+    </div>
+
 
     <div class="w-[100vw] px-10 text-center lg:max-w-[60vw] mt-16">
         <p class="whitespace-break-all">{$author.bio}</p>

@@ -9,8 +9,6 @@
 
     let book = $books.find(book => book.id === id)
 
-    console.log(book, book?.image)
-
 </script>
 
 <div class="relative flex justify-center mt-20 z-20">

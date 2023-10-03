@@ -4,7 +4,6 @@
 
     const lensStories = $lens.slice(0,2)
 
-    console.log('lens stories', lensStories)
 </script>
 <div class="space-y-5 mt-8">
     <h3 class="text-lg text-white">Quick Library</h3>

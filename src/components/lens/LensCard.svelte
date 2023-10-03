@@ -11,7 +11,7 @@
             <div class="space-y-3">
                 <h2 class="text-lg text-white">{story.title}</h2>
                 <p class=" leading-5">
-                    {story.summary}
+                    {story.summary} 
                 </p>
                 <p class=""><span class="font-bold">Genre:</span> {story.genre}</p>
             
