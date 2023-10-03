@@ -6,7 +6,8 @@
     onMount(() => {
         toastMessage.set('Welcome')
         showToastMessage()
-        goto('/lens') 
+        
+        location.href = '/lens'
     })
 
 </script>
