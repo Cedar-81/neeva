@@ -6,55 +6,54 @@
     import { Send, MessageCircle, Heart } from 'lucide-svelte';
     import LensContentAppBar from "./LensContentAppBar.svelte";
     import { singleLens, user_id } from "$lib/store";
-	import { loading, personalBio, showToastMessage, toastMessage } from "$lib/appStore";
+	import { loading, personalBio } from "$lib/appStore";
 	import { onMount } from "svelte";
+	import toast from "svelte-french-toast";
 
     let htmlText = marked.parse($singleLens.content);
     let showComment = false
     let liked = $singleLens.likes ? $singleLens.likes.includes($personalBio.username) : false
-    let handleShowComment = () => showComment = !showComment
+    // let handleShowComment = () => showComment = !showComment
     let comment = ''
     let owner: Boolean = $singleLens.UserDetails?.user_id == $user_id
 
-    const handleComment = () => {
-      loading.set(true)
-      const formData = new FormData()
-      formData.append('comment', `${comment}`)
-      formData.append('username', $personalBio.username)
+    // const handleComment = () => {
+    //   loading.set(true)
+    //   const formData = new FormData()
+    //   formData.append('comment', `${comment}`)
+    //   formData.append('username', $personalBio.username)
 
-      fetch('?/postComment', {
-          method: 'POST', 
-          body: formData
+    //   fetch('?/postComment', {
+    //       method: 'POST', 
+    //       body: formData
           
-      })
-      .finally(() => {
-        comment = ''
-        loading.set(false)
-        let message = "Comment posted successfully"
-        toastMessage.set(message);
-        showToastMessage();
-      })
-    }
+    //   })
+    //   .finally(() => {
+    //     comment = ''
+    //     loading.set(false)
+    //     let message = "Comment posted successfully"
+    //     toast.success(message)
+    //   })
+    // }
 
-    const handleLike = () => {
-      loading.set(true)
-      liked = !liked
-      const formData = new FormData()
-      formData.append('liked', `${liked}`)
-      formData.append('username', `${$personalBio.username}`)
+    // const handleLike = () => {
+    //   loading.set(true)
+    //   liked = !liked
+    //   const formData = new FormData()
+    //   formData.append('liked', `${liked}`)
+    //   formData.append('username', `${$personalBio.username}`)
 
-      fetch('?/likeLens', {
-          method: 'POST', 
-          body: formData
+    //   fetch('?/likeLens', {
+    //       method: 'POST', 
+    //       body: formData
           
-      })
-      .finally(() => {
-          loading.set(false)
-          let message = liked ? 'Lens liked successfully' : 'Lens unliked successfully'
-          toastMessage.set(message);
-          showToastMessage();
-      })
-    }
+    //   })
+    //   .finally(() => {
+    //       loading.set(false)
+    //       let message = liked ? 'Lens liked successfully' : 'Lens unliked successfully'
+    //       toast.success(message)
+    //   })
+    // }
 
     const handleFollow = () => {
         const formData = new FormData();
@@ -66,8 +65,7 @@
         })
         .finally(() => {
             loading.set(false)
-            toastMessage.set('Followed Successfully');
-            showToastMessage();
+            toast.success("Followed successfully.")
         })
     }
 
@@ -81,8 +79,7 @@
         })
         .finally(() => {
             loading.set(false)
-            toastMessage.set('Unfollowed Successfully');
-            showToastMessage();
+            toast.success('Unfollowed Successfully')
         })
     }
 
@@ -99,8 +96,7 @@
         })
         .finally(() => {
             let message = 'Enjoy your reading ;)'
-            toastMessage.set(message);
-            showToastMessage();
+            toast.success(message)
         })        
       }
 
@@ -119,7 +115,7 @@
         {@html htmlText}
       </div>
       <div class="sticky bottom-0">
-        {#if $singleLens.published }
+        <!-- {#if $singleLens.published }
           <div class="flex relative z-50 flex-col items-end space-y-4 pr-4 mb-20 pb-8 lg:mb-8">
             <button class="btn relative z-5 p-3 h-max rounded-full bg-base-300/60 cursor-pointer" on:click={handleShowComment}><MessageCircle class='h-8 w-8 stroke-[1.2px]' /></button>
             <button class="btn relative z-5 p-3 h-max rounded-full bg-base-300/60 cursor-pointer" on:click={handleLike}><Heart class={`h-8 w-8 stroke-[1.2px] ${liked ? 'stroke-red-600' : 'stroke-slate-400'}`} /></button>
@@ -133,8 +129,8 @@
           </div>
           <CommentList />
         </div>
-        {/if}
-        <!-- <LensContentAppBar />   -->
+        {/if} -->
+        <LensContentAppBar />  
       </div>
     </div>
 

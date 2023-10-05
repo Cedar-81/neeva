@@ -1,11 +1,6 @@
 <script>
   import { Loader2 } from 'lucide-svelte'
 	import { loading, showToast, toastMessage } from "$lib/appStore";
-	import { onDestroy } from 'svelte';
-
-
-  onDestroy(() => toastMessage.set(''))
-
 </script>
 
 

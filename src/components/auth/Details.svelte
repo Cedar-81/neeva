@@ -1,24 +1,22 @@
 <script lang='ts'>
     import SignupImage from "$lib/assets/details.jpg";
     import { enhance } from '$app/forms'
-	import { showToastMessage, submitForm, toastMessage } from "$lib/appStore";
 	import type { SubmitFunction } from "@sveltejs/kit";
 	import { goto } from "$app/navigation";
+	import toast from "svelte-french-toast";
 
     const submitDetailForm: SubmitFunction = ({form, data, action, cancel}) => {
         const { username, firstname, lastname } = Object.fromEntries(data)
 
         if(username.length < 1 || firstname.length < 1 || lastname.length < 1 ) {
-            toastMessage.set('Please make sure all fields are filled.')
-            showToastMessage()
+            toast.error('Please make sure all fields are filled.')
             cancel() 
         }
 
         return async ({result, update}) => {
             console.log(result)
             if(result.type == "failure") {
-                toastMessage.set(result.data?.body.message)
-                showToastMessage()
+                toast.error(result.data?.body.message)
             }
             if(result.type == 'redirect'){
                 goto(result.location)
