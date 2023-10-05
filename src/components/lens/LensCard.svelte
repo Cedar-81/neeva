@@ -3,6 +3,20 @@
 	import Icon from "@iconify/svelte";
 	import Avatar from "../Avatar.svelte";
     export let story: Lens;
+
+  function trimStringToWordCount(inputString, maxWords) {
+	  // Split the input string into an array of words
+	  const words = inputString.split(/\s+/);
+	
+	  // Ensure the word count does not exceed the maximum
+	  if (words.length > maxWords) {
+	    // Slice the array to keep only the first 'maxWords' words, and join them back into a string
+	    return words.slice(0, maxWords).join(" ") + " ...";
+	  }
+	
+	  // If the word count is within the limit, return the original string
+	  return inputString;
+  }
 </script>
 
 <div class="hover:shadow-xl mx-auto cursor-pointer w-[16rem] lg:w-[15rem] bg-base-200 rounded-lg mt-8 p-4"> 
@@ -11,7 +25,7 @@
             <div class="space-y-3">
                 <h2 class="text-lg text-white">{story.title}</h2>
                 <p class=" leading-5">
-                    {story.summary} 
+                    {trimStringToWordCount(story.summary, 300)} 
                 </p>
                 <p class=""><span class="font-bold">Genre:</span> {story.genre}</p>
             
