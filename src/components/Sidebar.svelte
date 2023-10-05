@@ -33,7 +33,7 @@
 
   <div class="drawer-content overflow-y-auto z-30 h-[100vh]" on:scroll={handleScroll}>
     <slot />
-    <label for="my-drawer-2" class="fixed z-30 bottom-44 right-8 btn btn-primary rounded-full drawer-button lg:hidden"><AlignCenter /></label>
+    <label for="my-drawer-2" class="fixed z-30 bottom-24 right-8 btn btn-primary rounded-full drawer-button lg:hidden"><AlignCenter /></label>
   </div> 
 
   <div class="drawer-side bg-base-300 z-40 bg-transparent">
