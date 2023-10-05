@@ -1,7 +1,6 @@
 <script>
   import { Loader2 } from 'lucide-svelte'
 	import { loading, showToast, toastMessage } from "$lib/appStore";
-
 </script>
 
 
@@ -15,9 +14,10 @@
 
 
 {#if $showToast}
-  <div class="toast toast-top toast-center z-50">
-    <div class="alert alert-info">
-      <span>{$toastMessage}</span>
+<div class=" animate-bounce transition-all w-full flex justify-center fixed top-3 z-50">
+    <div class="alert alert-info relative text-left w-max max-w-[90vw] h-max">
+      <p class="">{$toastMessage}</p>
     </div>
-  </div>
+</div>
+
 {/if}

@@ -2,10 +2,11 @@
 	import { author, type Author } from "$lib/store";
     import { Pencil } from 'lucide-svelte'
 	import Avatar from "../Avatar.svelte"
-	import { loading, personalBio, showToastMessage, toastMessage } from "$lib/appStore";
+	import { loading, personalBio } from "$lib/appStore";
 	import { page } from "$app/stores";
 	import { onMount } from "svelte";
     import Compressor from 'compressorjs';
+	import toast from "svelte-french-toast";
     
     export let owner: Boolean;
 
@@ -14,8 +15,12 @@
   
 
     onMount(() => {
-        toastMessage.set("Click banner or profile to change its image :)")
-        showToastMessage()
+        toast(
+            "Click banner or profile to change its image :)",
+                {
+                    duration: 4000,
+                }
+            );
     })
 
     const profile: Author = {
@@ -52,8 +57,7 @@
         })
         .finally(() => {
             loading.set(false)
-            toastMessage.set('Followed Successfully');
-            showToastMessage();
+            toast.success('Followed Successfully')
         })
     }
 
@@ -67,8 +71,7 @@
         })
         .finally(() => {
             loading.set(false)
-            toastMessage.set('Updated Successfully');
-            showToastMessage();
+            toast.success('Updated Successfully')
         })
     }
 
@@ -85,41 +88,80 @@
         })
         .finally(() => {
             loading.set(false)
-            toastMessage.set('Unfollowed Successfully');
-            showToastMessage();
+            toast.success('Unfollowed Successfully')
         })
     }
     
     let selectedImage: string | null = null;
 
-    function handleFileInputChange(event: Event, type: string) {
+    function handleBannerInput(event: Event) {
         const fileInput = event.target as HTMLInputElement;
         const files = fileInput.files;
+
         if (files && files.length > 0) {
             loading.set(true)
             const file = files[0];
             const formData = new FormData();
+            let new_banner_version_no = $personalBio.banner_version_no + 1
+
             let compressedImage;
+
             const options = {
                 quality: 0.8, // Adjust quality as needed (0 to 1)
-                maxWidth: type == 'profile' ? 500 : 1500, // Adjust dimensions as needed
-                maxHeight: type == 'profile' ? 500 : 1000,
+                maxWidth: 1500, // Adjust dimensions as needed
+                maxHeight: 1000,
                 success(result: File) {
                     compressedImage = result;
-           
-                    formData.append('type', type)
                     formData.append('info', compressedImage)
-                    formData.append('banner_version', `${$personalBio.banner_version_no++}`)
-                    formData.append('profile_version', `${$personalBio.profile_version_no++}`)
+                    formData.append('banner_version', `${new_banner_version_no}`)
 
-                    let submit = fetch('?/uploadImage', {
+                    let submit = fetch('?/uploadBannerImage', {
                         method: 'POST', 
                         body: formData 
                     })
                     .finally(() => {
                         loading.set(false)
-                        toastMessage.set(`Changed successfully.${type == "profile" ? ' Reload to effect changes.' : ''}`);
-                        showToastMessage();
+                        toast.success(`Banner image changed successfully.`)
+                    })
+                    selectedImage = URL.createObjectURL(file);
+                },
+                error(err: Error) {
+                    console.error('Error compressing image:', err);
+                },
+            };
+            
+            new Compressor(file, options);
+        }
+    }
+
+    function handleProfileInput(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const files = fileInput.files;
+
+        if (files && files.length > 0) {
+            loading.set(true)
+            const file = files[0];
+            const formData = new FormData();
+            let new_profile_version_no = $personalBio.profile_version_no + 1
+
+            let compressedImage;
+            const options = {
+                quality: 0.8, // Adjust quality as needed (0 to 1)
+                maxWidth: 500, // Adjust dimensions as needed
+                maxHeight: 500,
+                success(result: File) {
+                    compressedImage = result;
+           
+                    formData.append('info', compressedImage)
+                    formData.append('profile_version', `${new_profile_version_no}`)
+
+                    let submit = fetch('?/uploadProfileImage', {
+                        method: 'POST', 
+                        body: formData 
+                    })
+                    .finally(() => {
+                        loading.set(false)
+                        toast.success(`Profile image changed successfully. Reload to effect changes.`)
                     })
                     selectedImage = URL.createObjectURL(file);
                 },
@@ -138,10 +180,10 @@
 
 <div>
     <label for='bannerImageInput'>
-        <div class="w-full h-[40vh] relative group">
+        <div class="w-full h-[40vh] relative group bg-accent/30">
             <img class="w-full h-full object-cover" src={$author.banner_image} alt="banner_image" />
             {#if owner}
-                <div class="absolute transition-all hidden group-hover:flex cursor-pointer items-center justify-center h-full w-full bg-black/40 top-0 right-0" ><Pencil class='h-8 w-8 text-accent-focus' /></div>
+                <div class="absolute text-[#35c5ec] transition-all hidden group-hover:flex cursor-pointer items-center justify-center h-full w-full bg-black/40 top-0 right-0" ><Pencil class='h-8 w-8 text-[#35c5ec]-focus' /></div>
             {/if}
             
         </div>
@@ -152,7 +194,7 @@
         accept="image/*"
         name="bannerImageInput"
         id="bannerImageInput"
-        on:change={(event) => handleFileInputChange(event, 'banner')}
+        on:change={handleBannerInput}
         
     />
 </div>
@@ -202,11 +244,11 @@
             <form>
             <label for="imageInput">
                 <div class="relative group transition-all">
-                    <div class="w-[130px] h-[130px] border-2 mask mask-hexagon">
+                    <div class="w-[130px] h-[130px] border-2 mask mask-hexagon bg-accent/30">
                         <img class="w-full h-full object-cover" src={$author.profile_image} alt={`${$author.username}'s profile'`} />
                     </div>
                     {#if owner}
-                        <div class="absolute transition-all hidden group-hover:flex cursor-pointer items-center justify-center h-full w-full bg-black/40 top-0 right-0 mask mask-hexagon" ><Pencil class='h-8 w-8 text-accent-focus' /></div>
+                        <div class="absolute text-[#35c5ec] transition-all hidden group-hover:flex cursor-pointer items-center justify-center h-full w-full bg-black/40 top-0 right-0 mask mask-hexagon" ><Pencil class='h-8 w-8 text-[#35c5ec]-focus' /></div>
                     {/if}
                 </div>
             </label>
@@ -217,7 +259,7 @@
                 accept="image/*"
                 name="imageInput"
                 id="imageInput"
-                on:change={(event) => handleFileInputChange(event, 'profile')}
+                on:change={handleProfileInput}
             /></form>
         
             <div class="lg:mt-8 mt-4 space-y-4">
@@ -231,7 +273,7 @@
                                 <button on:click={handleFollow} class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Follow</button>
                             {/if}
                             {#if owner}
-                                <button on:click={openModal} class="pl-5"><Pencil class='h-5 w-5' /></button>
+                                <button on:click={openModal} class="pl-5 text-[#35c5ec] text-sm flex gap-2 ">Edit Profile <Pencil class='h-5 w-5' /></button>
                             {/if}
                         </span>
                     </h1>

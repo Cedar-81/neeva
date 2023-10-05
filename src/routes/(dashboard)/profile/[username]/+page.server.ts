@@ -4,6 +4,7 @@ import type { Author } from '$lib/store.js';
 import { redirect } from '@sveltejs/kit';
 import sharp from 'sharp';
 import { readFile } from 'fs/promises';
+import { PUBLIC_SUPABASE_URL } from '$env/static/public';
 
 type Data = {
 	content: string;
@@ -244,65 +245,81 @@ export const actions = {
 		console.log('Followed successfully');
 	},
 
-	uploadImage: async ({ request, params, url, locals: { getSession, supabase } }) => {
+	uploadProfileImage: async ({ request, params, url, locals: { getSession, supabase } }) => {
 		const session = await getSession();
-		// if (!session) {
-		// 	// redirect user to login page
-		// 	throw redirect(303, '/auth/signin');
-		// }
+		if (!session) {
+			// redirect user to login page
+			throw redirect(303, '/auth/signin');
+		}
+
+		const content = await request.formData();
+		const image: File = content.get('info') as File;
+		const profile_version_no: string = content.get('profile_version') as string;
+
+		console.log('profile', image);
+
+		const { data, error } = await supabase.storage
+			.from('avatar')
+			.upload(`profile/${session.user.id}.png?v=${profile_version_no}`, image, {
+				cacheControl: '3600',
+				upsert: true
+			});
+
+		if (error) {
+			throw error;
+		}
+
+		const imageUrl = `${PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatar`;
+		const { error: err } = await supabase
+			.from('UserDetails')
+			.update({
+				profile_version_no: parseInt(profile_version_no, 10),
+				profile_image: `${imageUrl}/profile/${
+					session && session.user.id
+				}.png?v${profile_version_no}`
+			})
+			.eq('user_id', session.user.id);
+
+		if (err) throw err;
+	},
+
+	uploadBannerImage: async ({ request, params, url, locals: { getSession, supabase } }) => {
+		const session = await getSession();
+		if (!session) {
+			// redirect user to login page
+			throw redirect(303, '/auth/signin');
+		}
 		const dataVal: Data = { content: '' };
 		const content = await request.formData();
-		// content.forEach((value) => (dataVal.content = value as string));
 		const image: File = content.get('info') as File;
-		const type: string = content.get('type') as string;
-		const profile_version_no: string = content.get('profile_version') as string;
 		const banner_version_no: string = content.get('banner_version') as string;
 
 		console.log('image upload', content.get('info'), content.get('type'));
 
 		const { data, error } = await supabase.storage
 			.from('avatar')
-			.upload(
-				`${type}/${session && session.user.id}.png?v=${
-					type == 'profile' ? profile_version_no : banner_version_no
-				}`,
-				image,
-				{
-					cacheControl: '3600',
-					upsert: true
-				}
-			);
+			.upload(`banner/${session.user.id}.png?v=${banner_version_no}`, image, {
+				cacheControl: '3600',
+				upsert: true
+			});
 
 		if (error) {
 			throw error;
 		}
 
-		const imageUrl = 'https://gymsixcdrsdtjpvyjwha.supabase.co/storage/v1/object/public/avatar';
-		console.log('type: ', type);
-		if (type == 'profile' && session) {
-			const { error: err } = await supabase
-				.from('UserDetails')
-				.update({
-					profile_version_no: parseInt(profile_version_no, 10),
-					profile_image: `${imageUrl}/${type}/${
-						session && session.user.id
-					}.png?v${profile_version_no}`
-				})
-				.eq('user_id', session.user.id);
+		const imageUrl = `${PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatar`;
 
-			if (err) throw err;
-		} else if (type == 'banner' && session) {
-			console.log('banner ', banner_version_no, imageUrl, type, session.user.id);
-			const { error: err } = await supabase
-				.from('UserDetails')
-				.update({
-					banner_version_no: parseInt(banner_version_no, 10),
-					banner_image: `${imageUrl}/${type}/${session.user.id}.png?v${banner_version_no}`
-				})
-				.eq('user_id', session.user.id);
+		console.log('banner ', banner_version_no, imageUrl, session.user.id);
 
-			if (err) throw err;
-		}
+		const { error: err } = await supabase
+			.from('UserDetails')
+			.update({
+				banner_version_no: parseInt(banner_version_no, 10),
+				banner_image: `${imageUrl}/banner/${session.user.id}.png?v${banner_version_no}`
+			})
+			.eq('user_id', session.user.id);
+
+		if (err) throw err;
 	},
 
 	updateProfile: async ({ request, params, url, locals: { getSession, supabase } }) => {

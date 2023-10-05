@@ -1,12 +1,14 @@
 <script>
 	import { goto } from "$app/navigation";
-	import { showToastMessage, toastMessage } from "$lib/appStore";
 	import { onMount } from "svelte";
+	import toast from "svelte-french-toast";
 
     onMount(() => {
-        toastMessage.set('Welcome')
-        showToastMessage()
-        goto('/lens') 
+        toast('Welcome', {
+            icon: '🧏‍♂️',
+        });
+        
+        location.href = '/lens'
     })
 
 </script>

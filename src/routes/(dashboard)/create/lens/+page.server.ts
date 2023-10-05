@@ -7,10 +7,10 @@ import type { Action } from './$types';
 export const actions = {
 	save_details: async ({ request, url, locals: { supabase, getSession } }) => {
 		const session = await getSession();
-		// if (!session) {
-		// 	// redirect user to login page
-		// 	throw redirect(303, '/auth/signin');
-		// }
+		if (!session) {
+			// redirect user to login page
+			throw redirect(303, '/auth/signin');
+		}
 
 		const content = await request.formData();
 		const details = JSON.parse(content.get('details') as string);

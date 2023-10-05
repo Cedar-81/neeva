@@ -20,6 +20,7 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			.single();
 
 		dataVal = data;
+		console.log('first data', data);
 
 		if (err && session.user.id) {
 			throw redirect(303, '/auth/details');

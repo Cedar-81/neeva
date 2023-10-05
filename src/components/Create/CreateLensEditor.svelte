@@ -3,10 +3,11 @@
   import { Editor } from "@tiptap/core";
   import { Bold, Undo, Redo, Italic, TextQuote, PencilIcon } from 'lucide-svelte';
   import { onMount, afterUpdate } from "svelte";
-  import { genres, lensCreateAction, lensCreateForm, loading, showToast, showToastMessage, toastMessage } from "$lib/appStore";
+  import { genres, lensCreateAction, lensCreateForm, loading } from "$lib/appStore";
 	import CreateLensDetails from "./CreateLensDetails.svelte";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
+	import toast from "svelte-french-toast";
 
   let element: HTMLDivElement | undefined;
   let editor: Editor | undefined;
@@ -17,7 +18,6 @@
   const maxChars = 500;
 
   onMount(() => {
-    showToast.set(false)
     if (element) {
       element.focus()
       editor = new Editor({
@@ -49,8 +49,7 @@
       })
       .finally(() => {
           loading.set(false)
-          toastMessage.set('Congratulations... your story is now available to everyone.');
-          showToastMessage();
+          toast.success('Congratulations... your story is now available to everyone.')
           goto('/lens/read/' + lensId)
       })
     }
@@ -73,10 +72,7 @@
       })
       .finally(() =>{
         loading.set(false);
-        toastMessage.set(
-          'Story successfully added to your drafts. Check your profile to continue writing.'
-        );
-        showToastMessage();
+        toast.success('Story successfully added to your drafts. Check your profile to continue writing.')
         redirect && goto('/lens/read/' + lensId)
       })
     }

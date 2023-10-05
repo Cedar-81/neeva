@@ -1,4 +1,3 @@
-import { lensCreateForm, showToast, toastMessage } from '$lib/appStore.js';
 import { fail, json, redirect } from '@sveltejs/kit';
 
 type Data = {
@@ -107,8 +106,5 @@ export const actions = {
 		if (err) {
 			return fail(500, { message: 'Server error. Try again later.', success: false });
 		}
-
-		toastMessage.set('Story details updated successfully');
-		showToast.set(true);
 	}
 };

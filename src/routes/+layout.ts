@@ -5,7 +5,6 @@ import type { Database } from '$lib/DatabaseDefinitions';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ fetch, data, depends, params, route }) => {
-	console.log('here i am', route);
 	depends('supabase:auth');
 
 	const supabase = createSupabaseLoadClient<Database>({

@@ -4,6 +4,7 @@
 	import { personalBio, showToastMessage, toastMessage } from "$lib/appStore";
     import {lens} from "$lib/store"
 	import { onMount } from "svelte";
+	import toast from "svelte-french-toast";
 
     export let data;
     const lensList = data.lens.body.prioritizedLens
@@ -12,8 +13,12 @@
 
     onMount(() => {
         if($personalBio.banner_version_no == 0 && $personalBio.profile_version_no == 0) {
-            toastMessage.set("Go to your profile and add some nice image of yourself for better identification :)");
-            showToastMessage()
+            toast(
+                "Go to your profile and add some nice image of yourself for better identification :)",
+                {
+                    duration: 4000,
+                }
+            );
         }
     })
 

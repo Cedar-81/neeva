@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-  import { genres, lensCreateAction, loading, personalBio, showToastMessage, toastMessage } from "$lib/appStore";
+  import { genres, lensCreateAction, loading, personalBio } from "$lib/appStore";
   import { View } from  "lucide-svelte"
+	import toast from "svelte-french-toast";
   let showModal = true;
   let text = '';
   let charCount = 0;
@@ -48,19 +49,17 @@
       .then(data => responseData = data)
       .finally(() =>{
         loading.set(false);
-        toastMessage.set(
-          'Story details successfully saved and added to your drafts.'
-        );
-        showToastMessage();
-        toastMessage.set("Creating writing workspace...")
-        showToastMessage();
+        toast.success('Story details successfully saved and added to your drafts.')
+        toast("Creating writing workspace.",
+            {
+              duration: 6000,
+            }
+          );
+ 
         location.href = `/create/lens/write/${JSON.parse(responseData.data)[1]}`
       })
     
   }
-
-  export let redirect_id
-
   
 </script>
 

@@ -3,6 +3,7 @@
   import { invalidate } from '$app/navigation'
   import { onMount } from 'svelte'
 	import { supabaseClient } from "$lib/appStore";
+  import { Toaster } from 'svelte-french-toast';
 
   export let data
 
@@ -25,3 +26,5 @@
 </script>
 
 <slot />
+
+<Toaster />
