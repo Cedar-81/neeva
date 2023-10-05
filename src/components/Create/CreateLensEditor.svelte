@@ -152,7 +152,7 @@
     
 
         {#if editor}
-            <div class="navbar sticky bottom-0 w-full lg:w-[70%] mx-auto px-4 flex justify-between rounded-lg bg-base-200 min-h-[1rem] h-[4rem]">
+            <div class="navbar fixed lg:sticky bottom-0 w-full lg:w-[70%] mx-auto px-4 flex justify-between rounded-lg bg-base-200 min-h-[1rem] h-[4rem]">
                 <button
                     on:click={() => editor?.chain().focus().undo().run()}
                     disabled={!editor.can().chain().focus().undo().run()}
