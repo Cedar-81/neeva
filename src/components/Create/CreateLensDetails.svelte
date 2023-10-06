@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 	import toast from "svelte-french-toast";
   let showModal = true;
-  let text = '';
+  let text = detailFormVal.summary;
   let charCount = 0;
   const maxChars = 500; // Change this to your desired character limit
   
@@ -100,7 +100,7 @@
 
         <div  class="form-control">
             <label for="summary" class="label">
-                <span class="label-text">Summary</span>
+                <span class="label-text">Plot</span>
             </label>
             <textarea bind:value={detailFormVal.summary} rows="4" cols="50" on:input={updateCharCount} name="summary"  id="summary" class="textarea textarea-bordered h-24" placeholder="Lens summary"></textarea>
             <div class="w-full flex justify-end pt-2"><p class="text-xs"><span>{charCount}</span> / {maxChars} characters</p></div>
