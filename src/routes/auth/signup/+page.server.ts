@@ -7,7 +7,12 @@ export const actions = {
 		const provider = url.searchParams.get('provider') as Provider;
 
 		if (provider) {
-			const { data, error } = await supabase.auth.signInWithOAuth({ provider });
+			const { data, error } = await supabase.auth.signInWithOAuth({
+				provider,
+				options: {
+					redirectTo: 'http://localhost:5173/auth/details/'
+				}
+			});
 
 			if (error) {
 				console.log('login with google error', error);

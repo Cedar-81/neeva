@@ -6,7 +6,7 @@
 </script>
 <div class="space-y-5 lg:mt-8">
     <h3 class="text-lg text-white">Quick Library</h3> 
-    <div class="space-y-4">
+    <div class="space-y-4 pb-[4rem]">
         {#each lensStories as lens} 
             <LensQuickLibCard lens={lens} />   
         {/each}

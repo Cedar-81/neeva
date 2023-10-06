@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-  import { genres, lensCreateAction, loading, personalBio } from "$lib/appStore";
+  import { genres, loading, personalBio } from "$lib/appStore";
   import { View } from  "lucide-svelte"
+	import { onMount } from "svelte";
 	import toast from "svelte-french-toast";
   let showModal = true;
   let text = '';
   let charCount = 0;
   const maxChars = 500; // Change this to your desired character limit
-
+  
   function updateCharCount() {
     charCount = text.length;
     if (charCount > maxChars) {

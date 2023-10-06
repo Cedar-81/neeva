@@ -1,9 +1,12 @@
-import { loading, showToast, showToastMessage, toastMessage } from '$lib/appStore.js';
-import { redirect_id } from '$lib/store.js';
-import { AuthApiError } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
-import type { Action } from './$types';
 
+export const load = async ({ params, locals: { supabase, getSession } }) => {
+	const session = await getSession();
+	if (!session) {
+		// redirect user to login page
+		throw redirect(303, '/auth/signin');
+	}
+};
 export const actions = {
 	save_details: async ({ request, url, locals: { supabase, getSession } }) => {
 		const session = await getSession();
@@ -27,6 +30,8 @@ export const actions = {
 				author_id: details.author_id as string
 			})
 			.select();
+
+		console.log('create lens data ', data);
 
 		if (err) {
 			return fail(500, { message: 'Server error. Try again later.', success: false });

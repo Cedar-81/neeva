@@ -6,13 +6,14 @@
     import { Send, MessageCircle, Heart } from 'lucide-svelte';
     import LensContentAppBar from "./LensContentAppBar.svelte";
     import { singleLens, user_id } from "$lib/store";
-	import { loading, personalBio } from "$lib/appStore";
+	import { appSession, loading, personalBio } from "$lib/appStore";
 	import { onMount } from "svelte";
 	import toast from "svelte-french-toast";
+	import { goto } from "$app/navigation";
 
     let htmlText = marked.parse($singleLens.content);
     let showComment = false
-    let liked = $singleLens.likes ? $singleLens.likes.includes($personalBio.username) : false
+    let liked = $personalBio && $singleLens.likes ? $singleLens.likes.includes($personalBio.username) : false
     // let handleShowComment = () => showComment = !showComment
     let comment = ''
     let owner: Boolean = $singleLens.UserDetails?.user_id == $user_id
@@ -85,10 +86,11 @@
 
     onMount(() => {
       if($singleLens.published == true) {
-        let newViewCount = $singleLens.views ? $singleLens.views++ : 1;
+        let newViewCount = $singleLens.views ? $singleLens.views + 1 : 1;
         const formData = new FormData()
         formData.append('view_count', `${newViewCount}`)
 
+        console.log(newViewCount, $singleLens.views)
         fetch('?/view', {
             method: 'POST', 
             body: formData
@@ -148,14 +150,16 @@
         <div class="space-y-4">
             <div class="-space-y-2">
                 <h1 class="text:xl lg:text-2xl items-center text-gray-300 flex">{$singleLens?.UserDetails?.firstname + ' ' + $singleLens?.UserDetails?.lastname}
+                  {#if $appSession}  
                     <span>
-                        {#if !owner && $singleLens?.UserDetails?.following?.includes($personalBio.username)}
-                            <button on:click={handleUnfollow}  class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Unfollow</button>
-                        {/if}
-                        {#if !owner && !$singleLens?.UserDetails?.following?.includes($personalBio.username)}
-                            <button on:click={handleFollow} class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Follow</button>
-                        {/if}
-                    </span>
+                          {#if !owner && $singleLens?.UserDetails?.following?.includes($personalBio.username)}
+                              <button on:click={handleUnfollow}  class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Unfollow</button>
+                          {/if}
+                          {#if !owner && !$singleLens?.UserDetails?.following?.includes($personalBio.username)}
+                              <button on:click={handleFollow} class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Follow</button>
+                          {/if}
+                      </span>
+                  {/if}
                 </h1>
                 <h2 class="pt-2">@{$singleLens?.UserDetails?.username}</h2>
             </div>

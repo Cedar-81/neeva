@@ -1,23 +1,11 @@
-<script lang='ts'>
-	import { page } from '$app/stores';
+<script>
 	import Sidebar from '$components/Sidebar.svelte';
-	import Toast from '$components/Toast.svelte';
-	import { personalBio } from '$lib/appStore';
+    import { personalBio } from '$lib/appStore';
 
 	export let data
-	personalBio.set(data.userDetails)
-
+	data.userDetails && personalBio.set(data.userDetails)
 </script>
- 
-<Toast />
 
-
-<Sidebar >
+<Sidebar>
 	<slot />
 </Sidebar>
-
-
-
-    
-
-

@@ -1,6 +1,7 @@
 <script>
-	import { lensCreateForm } from "$lib/appStore";
+	import { appSession, lensCreateForm } from "$lib/appStore";
 	import CreateLensStory from "$components/Create/CreateLensStory.svelte";
+	import { onMount } from "svelte";
 	export let data;
 
 	const formData = data.getLensForm

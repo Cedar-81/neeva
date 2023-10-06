@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Session, SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '$lib/DatabaseDefinitions';
 import { writable } from 'svelte/store';
 import type { Redirect } from '@sveltejs/kit';
@@ -41,9 +41,11 @@ export const showToast = writable<boolean>(false);
 
 export const loading = writable<boolean>(false);
 
-export const submitForm = writable<boolean>(false)
+export const submitForm = writable<boolean>(false);
 
 export const toastMessage = writable<string>('');
+
+export const appSession = writable<Session | null>();
 
 export const lensCreateForm = writable<LensForm>({
 	title: '',

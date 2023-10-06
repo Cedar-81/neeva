@@ -2,13 +2,14 @@
   import "../app.postcss";
   import { invalidate } from '$app/navigation'
   import { onMount } from 'svelte'
-	import { supabaseClient } from "$lib/appStore";
+	import { appSession, supabaseClient } from "$lib/appStore";
   import { Toaster } from 'svelte-french-toast';
-
   export let data
 
   let { supabase, session } = data
   $: ({ supabase, session } = data)
+
+  appSession.set(session)
 
   supabaseClient.set(supabase)
 
@@ -24,6 +25,7 @@
     return () => subscription.unsubscribe()
   });
 </script>
+
 
 <slot />
 

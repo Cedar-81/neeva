@@ -7,7 +7,9 @@ export const actions = {
 		const provider = url.searchParams.get('provider') as Provider;
 
 		if (provider) {
-			const { data, error } = await supabase.auth.signInWithOAuth({ provider });
+			const { data, error } = await supabase.auth.signInWithOAuth({
+				provider
+			});
 
 			if (error) {
 				console.log('login with google error', error);

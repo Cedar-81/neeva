@@ -1,16 +1,12 @@
 import type { PersonalBio } from '$lib/appStore';
 import calculatePostPriority from '$lib/lensPriorityCalc';
-import type { Author } from '$lib/store';
+import type { Author, SingleLens } from '$lib/store';
 import { fail, redirect } from '@sveltejs/kit';
 import { onDestroy } from 'svelte';
 
 export const load = async ({ params, locals: { supabase, getSession } }) => {
 	const { id } = params;
 	const session = await getSession();
-	if (!session) {
-		// redirect user to login page
-		throw redirect(303, '/auth/signin');
-	}
 
 	async function getSingleLens() {
 		// Fetch the comments for the specific lens_id
@@ -25,11 +21,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 		if (error) {
 			throw error;
 		}
-
-		// let comment_count = await getCommentCount(id);
-		// let author_details = await getAuthor(lens?.author_id);
-
-		console.log('single lens', lens);
 
 		return {
 			...lens,
@@ -181,7 +172,7 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 
 	return {
 		singleLens: getSingleLens(),
-		userId: session.user.id,
+		userId: session && session.user.id,
 		comments: getComments(),
 		lens: getLens()
 	};
@@ -195,10 +186,10 @@ export const actions = {
 		const liked = content.get('liked');
 		const username = content.get('username') as string;
 
-		// if (!session) {
-		// 	// redirect user to login page
-		// 	throw redirect(303, '/auth/signin');
-		// }
+		if (!session) {
+			// redirect user to login page
+			throw redirect(303, '/auth/signin');
+		}
 
 		const { data, error: err } = await supabase.from('Lens').select('*').eq('id', id).single();
 		if (err) {
@@ -267,10 +258,10 @@ export const actions = {
 		const session = await getSession();
 		const content = await request.formData();
 
-		// if (!session) {
-		// 	// redirect user to login page
-		// 	throw redirect(303, '/auth/signin');
-		// }
+		if (!session) {
+			// redirect user to login page
+			throw redirect(303, '/auth/signin');
+		}
 
 		let userFollowing: PersonalBio = JSON.parse(content.get('user_following') as string);
 		let userToFollow: Author = JSON.parse(content.get('user_to_follow') as string);
@@ -325,10 +316,10 @@ export const actions = {
 		const session = await getSession();
 		const content = await request.formData();
 
-		// if (!session) {
-		// 	// redirect user to login page
-		// 	throw redirect(303, '/auth/signin');
-		// }
+		if (!session) {
+			// redirect user to login page
+			throw redirect(303, '/auth/signin');
+		}
 
 		let userFollowing: PersonalBio = JSON.parse(content.get('user_following') as string);
 		let userToFollow: Author = JSON.parse(content.get('user_to_follow') as string);
@@ -384,12 +375,6 @@ export const actions = {
 		const session = await getSession();
 		const { id } = params;
 		const content = await request.formData();
-
-		if (!session) {
-			// redirect user to login page
-			throw redirect(303, '/auth/signin');
-		}
-
 		let viewCount: string = content.get('view_count') as string;
 
 		console.log('viewcount ', viewCount);

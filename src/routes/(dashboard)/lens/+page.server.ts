@@ -3,10 +3,10 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
-	if (!session) {
-		// redirect user to login page
-		throw redirect(303, '/auth/signin');
-	}
+	// if (!session) {
+	// 	// redirect user to login page
+	// 	throw redirect(303, '/auth/signin');
+	// }
 	const getLens = async () => {
 		// Fetch data from the Supabase database
 		const { data, error } = await supabase
