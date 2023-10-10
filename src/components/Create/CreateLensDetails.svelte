@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
   import { genres, loading, personalBio } from "$lib/appStore";
-import { onMount } from 'svelte';
   import { View } from  "lucide-svelte"
 	import { onMount } from "svelte";
 	import toast from "svelte-french-toast";
