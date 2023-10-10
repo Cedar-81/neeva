@@ -1,14 +1,19 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
   import { genres, loading, personalBio } from "$lib/appStore";
+import { onMount } from 'svelte';
   import { View } from  "lucide-svelte"
 	import { onMount } from "svelte";
 	import toast from "svelte-french-toast";
   let showModal = true;
-  let text = detailFormVal.summary;
+  let text; 
   let charCount = 0;
   const maxChars = 500; // Change this to your desired character limit
-  
+
+onMount(() => {
+	text = detailFormVal.summary;
+})
+
   function updateCharCount() {
     charCount = text.length;
     if (charCount > maxChars) {
