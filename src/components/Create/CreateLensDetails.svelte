@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 	import toast from "svelte-french-toast";
   let showModal = true;
-  let text; 
+  let text = ""; 
   let charCount = 0;
   const maxChars = 500; // Change this to your desired character limit
 
