@@ -5,7 +5,7 @@
 </script>
 
 <div class="bg-base-200 p-3 space-y-1 rounded-lg hover:shadow-lg cursor-pointer">
-    <h2 class="text-sm text-white">{lens.title}</h2>
+    <h2 class="text-sm text-black/70 dark:text-white">{lens.title}</h2>
     <p class="text-xs">{lens.UserDetails?.username}</p>
     <!-- <progress class="progress progress-accent w-full" value="50" max="100" /> -->
     <!-- remove pt-2 when implementing progress bar -->

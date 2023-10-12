@@ -24,9 +24,12 @@
 
     return () => subscription.unsubscribe()
   });
+
+  let theme = 'dark';
 </script>
 
-
-<slot />
+<div data-theme={theme}>
+  <slot />
+</div>
 
 <Toaster />

@@ -26,9 +26,9 @@
         <a href={"/lens/read/" + story.id}  class="text-sm flex flex-col justify-between h-full space-y-3 ">
 
             <div class="space-y-3">
-                <h2 class="text-lg text-white">{story.title}</h2>
+                <h2 class="text-lg text-black/70 dark:text-white">{story.title}</h2>
                 <p class=" leading-5">
-                    {trimStringToWordCount(story.summary, 100)} 
+                    {trimStringToWordCount(story.summary, 60)} 
                 </p>
                 <p class=""><span class="font-bold">Genre:</span> {story.genre}</p>
             

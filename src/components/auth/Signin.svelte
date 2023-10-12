@@ -10,20 +10,20 @@
         <div class="flex flex-col justify-between p-8 flex-1">
             <div class="space-y-8">
                 <div class="mt-4">
-                    <h1 class="text-2xl font-semibold text-white/90 ">Welcome back, Neevite</h1>
-                    <p class="text-white text-sm">Unfortunately email login is currently unavailable please sign in with Google to login</p>
+                    <h1 class="text-2xl font-semibold text-black/80 dark:text-white/90 ">Welcome back, Neevite</h1>
+                    <p class="text-black/80 dark:text-white text-sm">Unfortunately email login is currently unavailable please sign in with Google to login</p>
                 </div>
     
                 <!-- <div class="form-control w-full">
                     <label for="email" class="label">
-                        <span class="label-text font-bold text-white">Email</span>
+                        <span class="label-text font-bold text-black/80 dark:text-white">Email</span>
                     </label>
                     <input disabled id="email" name="email" type="email" placeholder="email" class="input input-bordered w-full" />
                 </div>
     
                 <div class="form-control w-full">
                     <label for="password" class="label">
-                        <span class="label-text font-bold text-white">Password</span>
+                        <span class="label-text font-bold text-black/80 dark:text-white">Password</span>
                     </label>
                     <input id="password" disabled name="password" type="password" placeholder="password" class="input input-bordered w-full" />
                 </div>
@@ -31,10 +31,10 @@
 
             <div class="flex items-center h-full">
                 <div class="w-full text-lg font-bold space-y-2">
-                    <!-- <button disabled type="submit" class="btn normal-case w-full text-white">Continue to Login</button> -->
-                    <button formaction="?/login&provider=google" class="btn normal-case w-full text-white">Continue with Google</button>
+                    <!-- <button disabled type="submit" class="btn normal-case w-full text-black/80 dark:text-white">Continue to Login</button> -->
+                    <button formaction="?/login&provider=google" class="btn normal-case w-full text-black/80 dark:text-white">Continue with Google</button>
                     <div class="w-full"><p class="mx-auto text-center">---OR---</p></div>
-                    <a href="/auth/signup"><button class="btn normal-case w-full text-white">Create an account</button></a>
+                    <a href="/auth/signup"><button class="btn normal-case w-full text-black/80 dark:text-white">Create an account</button></a>
                 </div>
             </div>
         </div>

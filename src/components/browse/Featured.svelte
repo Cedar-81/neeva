@@ -12,7 +12,7 @@
     <div class="relative w-[50%] space-y-4 pt-20 z-20">
         <div class="space-y-1">
             <h2 class="text-5xl text-white">WALL-E</h2>
-            <p class="text-sm text-gray-400">Sci-fi / Horror / Thriller</p>
+            <p class="text-sm dark:text-gray-400">Sci-fi / Horror / Thriller</p>
         </div>
         
         <div class="space-y-4">

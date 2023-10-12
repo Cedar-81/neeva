@@ -11,50 +11,50 @@
         </div>
         <div class="space-y-8 p-8 flex-1 flex flex-col">
             <div class="mt-4">
-                <h1 class="text-2xl font-semibold text-white/90 ">Welcome to Neeva</h1>
-                <p class="text-white text-sm">Let's get you started</p>
+                <h1 class="text-2xl font-semibold text-black/80 dark:text-white/90 ">Welcome to Neeva</h1>
+                <p class="text-black/80 dark:text-white text-sm">Let's get you started</p>
             </div>
             <!-- <div class="form-control w-full">
                 <label for="firstname" class="label">
-                    <span class="label-text font-bold text-white">Firstname</span>
+                    <span class="label-text font-bold text-black/80 dark:text-white">Firstname</span>
                 </label>
                 <input id="firtname" disabled name="firstname" type="text" placeholder="Firstname" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control w-full">
                 <label for="lastname" class="label">
-                    <span class="label-text font-bold text-white">Lastname</span>
+                    <span class="label-text font-bold text-black/80 dark:text-white">Lastname</span>
                 </label>
                 <input id="lastname" disabled name="lastname" type="text" placeholder="Lastname" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control w-full">
                 <label for="username" class="label">
-                    <span class="label-text font-bold text-white">Username</span>
+                    <span class="label-text font-bold text-black/80 dark:text-white">Username</span>
                 </label>
                 <input id="username" disabled name="username" type="text" placeholder="@username" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control w-full">
                 <label for="email" class="label">
-                    <span class="label-text font-bold text-white">Email</span>
+                    <span class="label-text font-bold text-black/80 dark:text-white">Email</span>
                 </label>
                 <input id="email" disabled name="email" type="email" placeholder="email" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control w-full">
                 <label for="password" class="label">
-                    <span class="label-text font-bold text-white">Password</span>
+                    <span class="label-text font-bold text-black/80 dark:text-white">Password</span>
                 </label>
                 <input id="password" disabled name="password" type="password" placeholder="password" class="input input-bordered w-full" />
             </div> -->
 
             <div class="flex items-center h-full">
                 <div class="w-full text-lg font-bold space-y-2">
-                    <!-- <button disabled type="submit" class="btn normal-case w-full text-white">Continue to Signup</button> -->
-                    <button formaction="?/register&provider=google" class="btn normal-case w-full text-white">Continue with Google</button>
+                    <!-- <button disabled type="submit" class="btn normal-case w-full text-black/80 dark:text-white">Continue to Signup</button> -->
+                    <button formaction="?/register&provider=google" class="btn normal-case w-full text-black/80 dark:text-white">Continue with Google</button>
                     <div class="w-full"><p class="mx-auto text-center">---OR---</p></div>
-                    <a href="/auth/signin"><button class="btn normal-case w-full text-white">Already have an account? Login</button></a>
+                    <a href="/auth/signin"><button class="btn normal-case w-full text-black/80 dark:text-white">Already have an account? Login</button></a>
                 </div>                
             </div>
 

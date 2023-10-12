@@ -13,7 +13,7 @@
 
 	{#if $lensComments.length == 0}
 		<div class="h-full w-full flex items-center justify-center">
-			<p class="text-xl text-gray-500">There are currently no comments on this Lens</p>
+			<p class="text-xl dark:text-gray-500">There are currently no comments on this Lens</p>
 		</div>
 	{/if}
 </div>

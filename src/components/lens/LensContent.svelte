@@ -137,7 +137,7 @@
     </div>
 
     <div class="p-14">
-      <h2 class="text-xl text-gray-400">Author: </h2>
+      <h2 class="text-xl dark:text-gray-400">Author: </h2>
       <div class="flex mx-auto items-center">
         <Avatar 
             avatar={{

@@ -23,7 +23,7 @@
 
     {#if lensToShow.length == 0}
         <div class="w-full h-full flex items-center justify-center p-8">
-            <p class="text-xl text-gray-500">{`${!owner ? `This user doesn't` : "You don't" }`} have any Lens yet.</p>
+            <p class="text-xl dark:text-gray-500">{`${!owner ? `This user doesn't` : "You don't" }`} have any Lens yet.</p>
         </div>
     {/if}
 </section>

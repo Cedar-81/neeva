@@ -11,7 +11,7 @@
     {#if story}
         <a href={"/lens/read/" + story.id } class="text-sm flex flex-col justify-between h-full space-y-3 ">
             <div class="space-y-3">
-                <h2 class="text-lg text-white">{story.title}</h2>
+                <h2 class="text-lg text-black/80 dark:text-white">{story.title}</h2>
                 <p class=" leading-5">
                     {story.summary}
                 </p>

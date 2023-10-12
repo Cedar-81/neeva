@@ -204,34 +204,34 @@
         <h3 class="text-xl">Update Profile</h3>
         <div class="form-control w-full">
             <label for="firstname" class="label">
-                <span class="label-text font-bold text-white">Firstname</span>
+                <span class="label-text font-bold text-black/80 dark:text-white">Firstname</span>
             </label>
             <input id="firtname" name="firstname" bind:value={profile.firstname} type="text" placeholder="Firstname" class="input input-bordered w-full" />
         </div>
 
         <div class="form-control w-full">
             <label for="lastname" class="label">
-                <span class="label-text font-bold text-white">Lastname</span>
+                <span class="label-text font-bold text-black/70 dark:text-white">Lastname</span>
             </label>
             <input id="lastname" name="lastname" bind:value={profile.lastname} type="text" placeholder="Lastname" class="input input-bordered w-full" />
         </div>
 
         <div class="form-control w-full">
             <label for="username" class="label">
-                <span class="label-text font-bold text-white">Username</span>
+                <span class="label-text font-bold text-black/70 dark:text-white">Username</span>
             </label>
             <input id="username" name="username" bind:value={profile.username} type="text" placeholder="@username" class="input input-bordered w-full" />
         </div>
 
         <div  class="form-control">
             <label for="bio" class="label">
-                <span class="label-text text-white">Bio</span>
+                <span class="label-text text-black/70 dark:text-white">Bio</span>
             </label>
             <textarea bind:value={profile.bio}  rows="4" cols="50" on:input={updateCharCount} name="bio"  id="bio" class="textarea textarea-bordered h-24" placeholder="Bio"></textarea>
             <div class="w-full flex justify-end pt-2"><p class="text-xs"><span>{charCount}</span> / {maxChars} characters</p></div>
         </div>
 
-        <button on:click={updateProfile}  class="btn normal-case w-full text-white">Update Profile</button>
+        <button on:click={updateProfile}  class="btn normal-case w-full text-black/70 dark:text-white">Update Profile</button>
 
         
     </form>
@@ -264,7 +264,7 @@
         
             <div class="lg:mt-8 mt-4 space-y-4">
                 <div class="-space-y-2">
-                    <h1 class="text-xl md:text-2xl items-center text-gray-300 flex">{$author.firstname + " " + $author.lastname}
+                    <h1 class="text-xl md:text-2xl items-center dark:text-gray-300 flex">{$author.firstname + " " + $author.lastname}
                         <span class="flex items-center gap-3">
                             {#if !owner && $author.user_is_following}
                                 <button on:click={handleUnfollow}  class="btn btn-sm bg-transparent text-sm lowercase py-1 rounded-full px-4">Unfollow</button>
@@ -283,11 +283,11 @@
                 
                 <div class="flex space-x-20">
                     <div class="flex items-center justify-center flex-col font-bold">
-                        <h3 class="text-gray-300 md:text-lg">{ $author.followers ? $author.followers?.length : 0}</h3>
+                        <h3 class="dark:text-gray-300 md:text-lg">{ $author.followers ? $author.followers?.length : 0}</h3>
                         <p class="uppercase text-xs font-bold">followers</p>
                     </div>
                     <div class="flex items-center justify-center flex-col font-bold">
-                        <h3 class="text-gray-300 md:text-lg">{$author.following ? $author.following?.length : 0}</h3>
+                        <h3 class="dark:text-gray-300 md:text-lg">{$author.following ? $author.following?.length : 0}</h3>
                         <p class="uppercase text-xs font-bold">following</p>
                     </div>
                 </div>                    

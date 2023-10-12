@@ -1,7 +1,7 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
 	import Topbar from './Topbar.svelte';
-  import { Info, User2 } from 'lucide-svelte';
+  import { Info, Instagram, Twitter, User2 } from 'lucide-svelte';
 	import { appSession, openModal, personalBio, scrollPosition } from '$lib/appStore';
 	import { goto } from '$app/navigation';
   import { AlignCenter } from 'lucide-svelte';
@@ -28,7 +28,7 @@
 
 </script>
 
-<div class="drawer text-gray-400 bg-base-300 lg:drawer-open">
+<div class="drawer text-gray-700 dark:text-gray-400 bg-base-300 lg:drawer-open">
   <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
 
   <div class="drawer-content overflow-y-auto z-30 h-[100vh]" on:scroll={handleScroll}>
@@ -80,7 +80,17 @@
         </ul>
       </div>
     
+      <div class="flex justify-between items-center">
         <p class="text-xl relative font-bold p-8">Neeva</p>
+
+        <div class="flex space-x-2 items-center">
+          <a class="text-[#35c5ec]" href="https://twitter.com/neevaverse" target="_blank"><Twitter class='h-5 w-5' /></a>
+          <a class="text-[#35c5ec]" href="https://instagram.com/neevaverse?igshid=YTQwZjQ0NmI0OA==" target="_blank"><Instagram class='h-5 w-5' /></a>
+          <a class="text-[#35c5ec]" href="https://discord.gg/Mk7KmGe8" target="_blank"><Icon class='h-6 w-6' icon="ri:discord-line" /></a>
+          <a class="text-[#35c5ec]" href="https://www.tiktok.com/@neevaverse?_t=8gR6eO8lBFm&_r=1" target="_blank"><Icon class='h-6 w-6' icon="ri:tiktok-line" /></a>
+        </div>
+
+      </div>
 
     </div>
 

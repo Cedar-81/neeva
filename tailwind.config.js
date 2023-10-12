@@ -3,8 +3,9 @@ import tailwindcssAnimate from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
 const config = {
-	darkMode: ["class"],
+	darkMode: ['class', '[data-theme="dark"]'],
 	content: ["./src/**/*.{html,js,svelte,ts}"],
+	daisyui: ['dark', 'light'],
 	theme: {
 		container: {
 			center: true,
@@ -57,8 +58,9 @@ const config = {
 			fontFamily: {
 				sans: [...fontFamily.sans]
 			}
-		}
+		},
 	},
+
 	plugins: [require('@tailwindcss/typography'), tailwindcssAnimate, require("daisyui")]
 };
 
