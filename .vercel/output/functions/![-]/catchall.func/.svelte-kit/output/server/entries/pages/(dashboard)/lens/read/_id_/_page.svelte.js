@@ -237,8 +237,8 @@ function _page($$renderer, $$props) {
 		singleLens.set(data.singleLens);
 		user_id.set(data.userId);
 		lensComments.set(data.comments);
-		const lensList = data.lens.body.prioritizedLens;
-		lens.set(lensList ? lensList : []);
+		const lensList = data?.lens?.body?.prioritizedLens ?? [];
+		lens.set(lensList);
 		store_get($$store_subs ??= {}, "$supabaseClient", supabaseClient).channel("lens_comments_channel").on("postgres_changes", {
 			event: "*",
 			schema: "public",

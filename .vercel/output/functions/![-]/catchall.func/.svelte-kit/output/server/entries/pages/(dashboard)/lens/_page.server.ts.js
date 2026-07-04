@@ -38,7 +38,7 @@ var load = async ({ locals: { supabase, getSession } }) => {
 			return -1;
 		}
 	}
-	return { lens: getLens() };
+	return { lens: await getLens() };
 };
 //#endregion
 export { load };
