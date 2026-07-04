@@ -171,10 +171,10 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 	// });
 
 	return {
-		singleLens: getSingleLens(),
-		userId: session && session.user.id,
-		comments: getComments(),
-		lens: getLens()
+		singleLens: await getSingleLens(),
+		userId: session?.user?.id ?? null,
+		comments: await getComments(),
+		lens: await getLens()
 	};
 };
 

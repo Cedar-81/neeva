@@ -73,6 +73,6 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 	}
 
 	return {
-		lens: getLens()
+		lens: await getLens()
 	};
 };

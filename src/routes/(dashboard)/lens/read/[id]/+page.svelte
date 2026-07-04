@@ -12,8 +12,8 @@
 	singleLens.set(data.singleLens)
 	user_id.set(data.userId)
 	lensComments.set(data.comments)
-	const lensList = data.lens.body.prioritizedLens
-	lens.set(lensList ? lensList : [])
+	const lensList = data?.lens?.body?.prioritizedLens ?? []
+	lens.set(lensList)
 
 	$supabaseClient.channel('lens_comments_channel')
 	.on(

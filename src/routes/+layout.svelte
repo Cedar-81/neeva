@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../app.postcss";
+  import "../app.css";
   import { invalidate } from '$app/navigation'
   import { onMount } from 'svelte'
 	import { appSession, supabaseClient } from "$lib/appStore";

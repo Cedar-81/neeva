@@ -7,9 +7,9 @@
 	import toast from "svelte-french-toast";
 
     export let data;
-    const lensList = data.lens.body.prioritizedLens
+    const lensList = data?.lens?.body?.prioritizedLens ?? [];
 
-    lens.set(lensList ? lensList : [])
+    lens.set(lensList)
 
     onMount(() => {
         if($personalBio && $personalBio.banner_version_no == 0 && $personalBio.profile_version_no == 0) {
