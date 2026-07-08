@@ -13,8 +13,7 @@ export const load = async ({ data, depends }) => {
 		}
 	});
 
-	// Use the session from server data instead of fetching client-side
-	// This prevents multiple auth requests and uses the server's authenticated session
+	// Use the session from server data (this is the authoritative source)
 	const session = data?.session;
 
 	return { supabase, session };

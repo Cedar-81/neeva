@@ -1,62 +1,47 @@
 import { redirect } from '@sveltejs/kit';
 
-export const load = async ({ params, locals: { supabase, getSession } }) => {
+export const load = async ({ locals: { supabase, getSession } }) => {
 	async function getUserDetails() {
 		const session = await getSession();
-		console.log('inside here', session);
-		// if (!session) {
-		// 	console.log('inside session', session);
-		// 	throw redirect(301, '/auth/signin');
-		// 	// throw redirect(303, '/auth/signin');
-		// }
+		console.log('Dashboard - Session:', session?.user?.email);
+		
+		// If no session, redirect to signin
+		if (!session) {
+			console.log('No session found, redirecting to signin');
+			throw redirect(303, '/auth/signin');
+		}
 
-		console.log('outside here');
-		let dataVal: any;
-
-		if (session) {
+		try {
 			const { data, error: err } = await supabase
 				.from('UserDetails')
 				.select('*')
 				.eq('user_id', session.user.id)
 				.single();
 
-			if(!data) {
-				throw redirect(303, '/auth/details');
-			}
-
-			console.log('first data', data);
-
-			// if (err && session.user.id) {
-			// 	throw redirect(303, '/auth/details');
-			// 	// const uniqueRandomNumber = parseInt(uuidv4().replace(/-/g, '').slice(0, 8), 16);
-			// 	// const { data: createdData, error: dbError } = await supabase.from('UserDetails').insert([
-			// 	// 	{
-			// 	// 		firstname: '',
-			// 	// 		lastname: '',
-			// 	// 		username: `user${uniqueRandomNumber}`,
-			// 	// 		user_id: session.user.id
-			// 	// 	}
-			// 	// ]);
-
-			// 	// dataVal = createdData;
-
-			// 	// console.log('created data', createdData);
-
-			// 	// if (dbError) {
-			// 	// 	throw dbError;
-			// 	// }
-			// }
-
 			if (err) {
+				if (err.code === 'PGRST116') {
+					// No user details found, redirect to details page
+					console.log('No user details found, redirecting to details page');
+					throw redirect(303, '/auth/details');
+				}
+				console.error('Error fetching user details:', err);
 				throw err;
 			}
 
-			console.log('data', data);
+			if (!data) {
+				console.log('No user details data, redirecting to details page');
+				throw redirect(303, '/auth/details');
+			}
+
+			console.log('User details loaded:', data.username);
 
 			return {
 				...data,
-				lens_progress: JSON.stringify(data.lens_progress)
+				lens_progress: data.lens_progress ? JSON.stringify(data.lens_progress) : null
 			};
+		} catch (error) {
+			console.error('Error in getUserDetails:', error);
+			throw error;
 		}
 	}
 

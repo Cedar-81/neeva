@@ -9,7 +9,8 @@
   let { supabase, session } = data
   $: ({ supabase, session } = data)
 
-  appSession.set(session)
+  // Update the global session store whenever session changes
+  $: appSession.set(session)
 
   supabaseClient.set(supabase)
 
@@ -17,8 +18,13 @@
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, _session) => {
-      if (_session?.expires_at !== session?.expires_at) {
-        invalidate('supabase:auth')
+      console.log('Auth state changed:', event, _session?.user?.email);
+      
+      // Always invalidate to trigger layout reload with new session
+      invalidate('supabase:auth');
+      
+      if (_session) {
+        appSession.set(_session);
       }
     })
 
