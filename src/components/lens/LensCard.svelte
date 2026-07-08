@@ -21,7 +21,7 @@
     
 </script>
 
-<div class="hover:shadow-xl mx-auto cursor-pointer w-[16rem] lg:w-[15rem] bg-base-200 rounded-lg mt-8 p-4"> 
+<div class="hover:shadow-xl mx-auto cursor-pointer w-full lg:max-w-64 bg-base-200 rounded-lg mt-8 p-4"> 
     {#if story}
         <a href={"/lens/read/" + story.id}  class="text-sm flex flex-col justify-between h-full space-y-3 ">
 

@@ -3,7 +3,7 @@
 </script>
 
 <div class="w-full min-h-[100vh] py-10 flex justify-evenly pt-[4%]">
-    <form method="POST" action="?/login" class="modal-box ml-0 border-2 border-white/20 flex flex-col lg:flex-row p-0 h-max lg:min-h-[26rem] !max-w-[50rem]">
+    <form method="POST" action="?/login" class="ml-0 border-2 border-white/20 flex flex-col lg:flex-row p-0 h-max lg:min-h-[26rem] !max-w-[50rem] bg-slate-800 rounded-lg">
         <div class="w-full lg:w-[20rem]">
             <img class="w-full h-full object-cover" src={SignupImage} alt='signin' />
         </div>
@@ -28,6 +28,7 @@
                     <input id="password" disabled name="password" type="password" placeholder="password" class="input input-bordered w-full" />
                 </div>
             </div> -->
+            </div>
 
             <div class="flex items-center h-full">
                 <div class="w-full text-lg font-bold space-y-2">

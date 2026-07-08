@@ -8,14 +8,14 @@ export const load = async ({ data, depends }) => {
 
 	const supabase = createClient<Database>(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
 		auth: {
-			persistSession: false,
-			autoRefreshToken: false
+			persistSession: true,
+			autoRefreshToken: true
 		}
 	});
 
-	const {
-		data: { session }
-	} = await supabase.auth.getSession();
+	// Use the session from server data instead of fetching client-side
+	// This prevents multiple auth requests and uses the server's authenticated session
+	const session = data?.session;
 
 	return { supabase, session };
 };

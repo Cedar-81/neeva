@@ -28,7 +28,7 @@
   let theme = 'dark';
 </script>
 
-<div data-theme={theme}>
+<div class="dark" data-theme="dark">
   <slot />
 </div>
 

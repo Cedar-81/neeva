@@ -7,10 +7,11 @@ export const actions = {
 		const provider = url.searchParams.get('provider') as Provider;
 
 		if (provider) {
+			const origin = url.origin;
 			const { data, error } = await supabase.auth.signInWithOAuth({
 				provider,
 				options: {
-	                            redirectTo: 'https://neevaverse.com/auth/details/'
+					redirectTo: `${origin}/auth/callback`
 				}
 			});
 
@@ -26,11 +27,12 @@ export const actions = {
 
 		const body = Object.fromEntries(await request.formData());
 
+		const origin = url.origin;
 		const { data, error: err } = await supabase.auth.signUp({
 			email: body.email as string,
 			password: body.password as string,
 			options: {
-				emailRedirectTo: `localhost:5173/auth/callback`
+				emailRedirectTo: `${origin}/auth/callback`
 			}
 		});
 
@@ -45,7 +47,14 @@ export const actions = {
 		}
 
 		//save user details after registeration
-		data.user && saveUserDetails(supabase, body, data.user.id);
+		if (data.user) {
+			await saveUserDetails(supabase, body, data.user.id);
+		}
+
+		return {
+			success: true,
+			message: 'Check your email to confirm your account'
+		};
 	}
 };
 

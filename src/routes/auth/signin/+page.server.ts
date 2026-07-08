@@ -1,14 +1,17 @@
 import { AuthApiError, type Provider } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 
-console.log('here within');
 export const actions = {
-	login: async ({ request, url, locals: { supabase } }) => {
+	login: async ({ request, url, locals: { supabase }, getClientAddress }) => {
 		const provider = url.searchParams.get('provider') as Provider;
 
 		if (provider) {
+			const origin = url.origin;
 			const { data, error } = await supabase.auth.signInWithOAuth({
-				provider
+				provider,
+				options: {
+					redirectTo: `${origin}/auth/callback`
+				}
 			});
 
 			if (error) {
