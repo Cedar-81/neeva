@@ -36,7 +36,7 @@
     <label for="my-drawer-2" class="fixed z-30 bottom-24 right-8 btn btn-primary rounded-full drawer-button lg:hidden"><AlignCenter /></label>
   </div> 
 
-  <div class="drawer-side bg-base-300 z-40 bg-transparent">
+  <div class="drawer-side bg-base-300 z-40">
     <label for="my-drawer-2" class="drawer-overlay"></label> 
 
     <div class="h-full flex flex-col justify-between pr-4 bg-base-300">

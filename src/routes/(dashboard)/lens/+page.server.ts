@@ -13,7 +13,6 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 			.from('Lens')
 			.select(`*, UserDetails (profile_image, username)`)
 			.eq('published', true);
-		console.log('lens data', data);
 
 		if (error) {
 			console.error('Error fetching data:', error.message);

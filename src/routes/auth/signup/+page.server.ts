@@ -16,11 +16,9 @@ export const actions = {
 			});
 
 			if (error) {
-				console.log('login with google error', error);
 				return fail(500, { message: 'Server error. Try again later.', success: false });
 			}
 
-			console.log('data ', data);
 
 			throw redirect(303, data.url);
 		}
@@ -37,7 +35,6 @@ export const actions = {
 		});
 
 		if (err) {
-			console.log('there was an error', err);
 			if (err instanceof AuthApiError && err.status === 400) {
 				return fail(400, {
 					error: 'Invalid email or password'

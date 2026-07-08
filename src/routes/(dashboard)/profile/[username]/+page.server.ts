@@ -3,7 +3,6 @@ import compressImage from '$lib/compressImage.js';
 import type { Author } from '$lib/store.js';
 import { redirect } from '@sveltejs/kit';
 import sharp from 'sharp';
-import { readFile } from 'fs/promises';
 import { PUBLIC_SUPABASE_URL } from '$env/static/public';
 
 type Data = {
@@ -35,7 +34,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			profile.followers == null
 				? false
 				: !(profile.followers?.indexOf(loggedInUser.username) == -1);
-		console.log('liu, following, profile', loggedInUser.username, is_following, profile);
 
 		return {
 			...profile,
@@ -57,7 +55,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			.eq('username', username)
 			.single();
 
-		console.log('here here here', user);
 
 		if (err) {
 			throw err;
@@ -89,7 +86,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			});
 		}
 
-		console.log('lens', lens);
 		if (error) {
 			throw error;
 		}
@@ -104,7 +100,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			.eq('user_id', id)
 			.single();
 
-		console.log('author', profile);
 		if (error) {
 			throw error;
 		}
@@ -113,8 +108,8 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 	}
 
 	return {
-		profile: getAuthor(),
-		usersLens: getAuthorLens()
+		profile: await getAuthor(),
+		usersLens: await getAuthorLens()
 	};
 };
 
@@ -133,7 +128,6 @@ export const actions = {
 		let userFollowing: PersonalBio = JSON.parse(dataVal.content).user_following;
 		let userToFollow: Author = JSON.parse(dataVal.content).user_to_follow;
 
-		console.log('new follow button', userFollowing, userToFollow);
 
 		if (userFollowing.following == null || userToFollow.followers == null) {
 			userToFollow.followers = [];
@@ -144,7 +138,6 @@ export const actions = {
 		if (userToFollow.username && userFollowing.following.indexOf(userToFollow.username) == -1) {
 			userFollowing.following.push(userToFollow.username);
 
-			console.log('following ', userToFollow.username, userFollowing);
 
 			const { data: user2, error: err2 } = await supabase
 				.from('UserDetails')
@@ -170,15 +163,6 @@ export const actions = {
 			}
 		}
 
-		console.log(
-			'u2f, uf, u2funame, ufuname',
-			userToFollow.followers,
-			userFollowing.following,
-			userToFollow.username,
-			userFollowing.username
-		);
-
-		console.log('Followed successfully');
 	},
 
 	unfollow: async ({ request, params, url, locals: { getSession, supabase } }) => {
@@ -195,7 +179,6 @@ export const actions = {
 		let userFollowing: PersonalBio = JSON.parse(dataVal.content).user_following;
 		let userToFollow: Author = JSON.parse(dataVal.content).user_to_follow;
 
-		console.log('new follow button', userFollowing, userToFollow);
 
 		if (userFollowing.following == null || userToFollow.followers == null) {
 			return;
@@ -234,15 +217,6 @@ export const actions = {
 			}
 		}
 
-		console.log(
-			'u2f, uf, u2funame, ufuname',
-			userToFollow.followers,
-			userFollowing.following,
-			userToFollow.username,
-			userFollowing.username
-		);
-
-		console.log('Followed successfully');
 	},
 
 	uploadProfileImage: async ({ request, params, url, locals: { getSession, supabase } }) => {
@@ -256,7 +230,6 @@ export const actions = {
 		const image: File = content.get('info') as File;
 		const profile_version_no: string = content.get('profile_version') as string;
 
-		console.log('profile', image);
 
 		const { data, error } = await supabase.storage
 			.from('avatar')
@@ -294,7 +267,6 @@ export const actions = {
 		const image: File = content.get('info') as File;
 		const banner_version_no: string = content.get('banner_version') as string;
 
-		console.log('image upload', content.get('info'), content.get('type'));
 
 		const { data, error } = await supabase.storage
 			.from('avatar')
@@ -309,7 +281,6 @@ export const actions = {
 
 		const imageUrl = `${PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatar`;
 
-		console.log('banner ', banner_version_no, imageUrl, session.user.id);
 
 		const { error: err } = await supabase
 			.from('UserDetails')
@@ -334,7 +305,6 @@ export const actions = {
 		// content.forEach((value) => (dataVal.content = value as string));
 		const profile: Author = JSON.parse(content.get('profile') as string) as Author;
 
-		console.log('updated profile', profile);
 
 		if (session) {
 			const { error: err } = await supabase

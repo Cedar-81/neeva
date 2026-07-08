@@ -12,9 +12,7 @@ export const GET = async ({ url, locals: { supabase }, cookies }) => {
 		
 		// Get the session to ensure it's stored
 		const { data: { session } } = await supabase.auth.getSession();
-		if (session) {
-			console.log('Session established:', session.user.email);
-		}
+		
 	}
 
 	throw redirect(303, '/lens');

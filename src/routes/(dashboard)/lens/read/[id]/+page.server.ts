@@ -41,7 +41,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 				throw error;
 			}
 
-			console.log('comments: ', comments);
 
 			// Calculate the comment count
 			const commentCount = comments.length;
@@ -55,7 +54,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 	}
 
 	async function getAuthor(author_id: string | null) {
-		console.log('author_id', author_id);
 		if (!author_id) {
 			return null;
 		}
@@ -66,7 +64,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			.eq('user_id', author_id)
 			.single();
 
-		console.log('author', author);
 		if (error) {
 			throw error;
 		}
@@ -88,7 +85,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			throw error;
 		}
 
-		console.log('inside comments', id, comments);
 
 		return comments;
 	}
@@ -100,7 +96,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 			.select('*, UserDetails (profile_image, username)')
 			.eq('published', true);
 
-		// console.log('lens data', data);
 
 		if (error) {
 			console.error('Error fetching data:', error.message);
@@ -136,39 +131,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 		};
 	};
 
-	// onDestroy(async () => {
-	// 	console.log('unmounted');
-	// 	const { data: lensProgress, error: loadErr } = await supabase
-	// 		.from('UserDetails')
-	// 		.select('lens_progress')
-	// 		.eq('user_id', session.user.id)
-	// 		.single();
-
-	// 	if (loadErr) {
-	// 		throw loadErr;
-	// 	}
-
-	// 	console.log('jsonb lens progress: ', JSON.stringify(lensProgress));
-
-	// 	// Perform the JSONB upsert here
-	// 	// const dataToUpsert = {};
-
-	// 	// const { data, error } = await supabase.from('your_table_name').upsert(
-	// 	// 	[
-	// 	// 		{
-	// 	// 			// Specify the condition to match (e.g., by ID)
-	// 	// 			id: params.id
-	// 	// 		}
-	// 	// 	],
-	// 	// 	dataToUpsert
-	// 	// );
-
-	// 	// if (error) {
-	// 	// 	console.error('Error performing JSONB upsert:', error);
-	// 	// } else {
-	// 	// 	console.log('JSONB upsert successful:', data);
-	// 	// }
-	// });
 
 	return {
 		singleLens: await getSingleLens(),
@@ -200,7 +162,6 @@ export const actions = {
 
 		if (liked == 'true' && !likes.includes(username)) {
 			likes.push(username);
-			console.log('not meant to be here', likes, id);
 			const { error: err } = await supabase
 				.from('Lens')
 				.update({
@@ -214,9 +175,7 @@ export const actions = {
 		}
 
 		if (liked == 'false' && likes.includes(username)) {
-			console.log('in here');
 			const updatedLikes = likes.filter((item) => item !== username);
-			console.log('updated likes', updatedLikes);
 			const { error: err } = await supabase
 				.from('Lens')
 				.update({
@@ -237,7 +196,6 @@ export const actions = {
 		const comment = content.get('comment');
 		const username = content.get('username');
 
-		console.log('handling comment: ', username, comment, id, session?.user.id);
 
 		if (!session) {
 			throw redirect(303, '/auth/signin');
@@ -265,8 +223,6 @@ export const actions = {
 
 		let userFollowing: PersonalBio = JSON.parse(content.get('user_following') as string);
 		let userToFollow: Author = JSON.parse(content.get('user_to_follow') as string);
-
-		console.log('new follow button', userFollowing, userToFollow);
 
 		if (userFollowing.following == null || userToFollow.followers == null) {
 			userToFollow.followers = [];
@@ -301,15 +257,6 @@ export const actions = {
 			}
 		}
 
-		console.log(
-			'u2f, uf, u2funame, ufuname',
-			userToFollow.followers,
-			userFollowing.following,
-			userToFollow.username,
-			userFollowing.username
-		);
-
-		console.log('Followed successfully');
 	},
 
 	unfollow: async ({ request, params, url, locals: { getSession, supabase } }) => {
@@ -324,7 +271,6 @@ export const actions = {
 		let userFollowing: PersonalBio = JSON.parse(content.get('user_following') as string);
 		let userToFollow: Author = JSON.parse(content.get('user_to_follow') as string);
 
-		console.log('new follow button', userFollowing, userToFollow);
 
 		if (userFollowing.following == null || userToFollow.followers == null) {
 			return;
@@ -360,15 +306,6 @@ export const actions = {
 			}
 		}
 
-		console.log(
-			'u2f, uf, u2funame, ufuname',
-			userToFollow.followers,
-			userFollowing.following,
-			userToFollow.username,
-			userFollowing.username
-		);
-
-		console.log('Followed successfully');
 	},
 
 	view: async ({ request, params, url, locals: { getSession, supabase } }) => {
@@ -377,7 +314,6 @@ export const actions = {
 		const content = await request.formData();
 		let viewCount: string = content.get('view_count') as string;
 
-		console.log('viewcount ', viewCount);
 
 		const { data: user, error: err } = await supabase
 			.from('Lens')

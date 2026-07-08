@@ -6,7 +6,6 @@ export const actions = {
 		const session = await getSession();
 
 		if (!session) {
-			console.log('inside session', session);
 			throw redirect(301, '/auth/signin');
 			// throw redirect(303, '/auth/signin');
 		}

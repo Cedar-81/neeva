@@ -27,7 +27,7 @@
 			schema: 'public',
 			table: 'UserDetails'
 		},
-		(event) => {
+		(event: { new: Author; }) => {
 			let author_profile: Author;
 			author_profile = event.new as Author;
 			const is_following = author_profile.followers == null ? false : !(author_profile.followers?.indexOf($personalBio.username) == -1)

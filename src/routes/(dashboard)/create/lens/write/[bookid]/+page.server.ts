@@ -18,7 +18,6 @@ export const load = async ({ params, locals: { supabase, getSession } }) => {
 		if (err) {
 			throw err;
 		}
-		console.log('loaded successfully');
 
 		return data;
 	}
@@ -53,7 +52,6 @@ export const actions = {
 			return fail(500, { message: 'Server error. Try again later.', success: false });
 		}
 
-		console.log('writing data ', dataVal);
 	},
 
 	save: async ({ request, params, url, locals: { getSession, supabase } }) => {
@@ -80,7 +78,6 @@ export const actions = {
 			return fail(500, { message: 'Server error. Try again later.', success: false });
 		}
 
-		console.log('done');
 	},
 
 	update_details: async ({ request, params, locals: { supabase, getSession } }) => {

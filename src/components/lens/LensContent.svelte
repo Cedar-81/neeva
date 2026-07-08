@@ -90,7 +90,6 @@
         const formData = new FormData()
         formData.append('view_count', `${newViewCount}`)
 
-        console.log(newViewCount, $singleLens.views)
         fetch('?/view', {
             method: 'POST', 
             body: formData

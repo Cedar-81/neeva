@@ -1,30 +1,34 @@
 <script lang='ts'>
     import SignupImage from "$lib/assets/details.jpg";
-    import { enhance } from '$app/forms'
-	import type { SubmitFunction } from "@sveltejs/kit";
-	import { goto } from "$app/navigation";
-	import toast from "svelte-french-toast";
+    import { enhance } from '$app/forms';
+    import type { SubmitFunction } from "@sveltejs/kit";
+    import { goto } from "$app/navigation";
+    import toast from "svelte-french-toast";
 
-    const submitDetailForm: SubmitFunction = ({form, data, action, cancel}) => {
-        const { username, firstname, lastname } = Object.fromEntries(data)
+    // Fix 1: Destructure `formData` instead of `data`
+    const submitDetailForm: SubmitFunction = ({ formElement, formData, action, cancel }) => {
+        // Fix 2: Convert formData entries to string values cleanly
+        const username = (formData.get('username') as string)?.trim() ?? '';
+        const firstname = (formData.get('firstname') as string)?.trim() ?? '';
+        const lastname = (formData.get('lastname') as string)?.trim() ?? '';
 
-        if(username.length < 1 || firstname.length < 1 || lastname.length < 1 ) {
-            toast.error('Please make sure all fields are filled.')
-            cancel() 
+        if (username.length < 1 || firstname.length < 1 || lastname.length < 1) {
+            toast.error('Please make sure all fields are filled.');
+            cancel(); 
         }
 
-        return async ({result, update}) => {
-            console.log(result)
-            if(result.type == "failure") {
-                toast.error(result.data?.body.message)
+        return async ({ result, update }) => {
+            if (result.type === "failure") {
+                // Safely extract the error message from form action's fail()
+                const errorMessage = result.data?.message || 'Something went wrong';
+                toast.error(errorMessage);
             }
-            if(result.type == 'redirect'){
-                goto(result.location)
+            if (result.type === 'redirect') {
+                goto(result.location);
             }
-            // await update()
-        }
-
-    }
+            // await update();
+        };
+    };
 </script>
 
 <div class="w-full min-h-[100vh] py-10 flex justify-evenly pt-[4%]">

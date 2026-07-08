@@ -17,7 +17,6 @@ export const actions = {
 
 		const content = await request.formData();
 		const details = JSON.parse(content.get('details') as string);
-		console.log('book create data', content);
 
 		const { data, error: err } = await supabase
 			.from('Lens')
@@ -31,18 +30,12 @@ export const actions = {
 			})
 			.select();
 
-		console.log('create lens data ', data);
 
 		if (err) {
 			return fail(500, { message: 'Server error. Try again later.', success: false });
 		}
 
-		console.log('redirect id ', data[0].id);
 
 		return { redirect_id: data[0].id };
-
-		// console.log('Before redirect');
-		// throw redirect(307, `create/lens/write/${data[0].id}`);
-		// console.log('after redirect');
 	}
 };

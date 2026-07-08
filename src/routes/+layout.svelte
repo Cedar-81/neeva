@@ -2,36 +2,30 @@
   import "../app.css";
   import { invalidate } from '$app/navigation'
   import { onMount } from 'svelte'
-	import { appSession, supabaseClient } from "$lib/appStore";
+  import { appSession, supabaseClient } from "$lib/appStore";
   import { Toaster } from 'svelte-french-toast';
-  export let data
 
-  let { supabase, session } = data
-  $: ({ supabase, session } = data)
+  export let data;
 
-  // Update the global session store whenever session changes
-  $: appSession.set(session)
+  $: ({ supabase, session } = data);
 
-  supabaseClient.set(supabase)
+  // Update stores reactively
+  $: appSession.set(session);
+  $: supabaseClient.set(supabase);
 
   onMount(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, _session) => {
-      console.log('Auth state changed:', event, _session?.user?.email);
+    } = supabase.auth.onAuthStateChange((event: any, _session: { user: { email: any; }; access_token: any; }) => {
       
-      // Always invalidate to trigger layout reload with new session
-      invalidate('supabase:auth');
-      
-      if (_session) {
-        appSession.set(_session);
+      // ONLY invalidate if the session access token actually changed!
+      if (_session?.access_token !== session?.access_token) {
+        invalidate('supabase:auth');
       }
-    })
+    });
 
-    return () => subscription.unsubscribe()
+    return () => subscription.unsubscribe();
   });
-
-  let theme = 'dark';
 </script>
 
 <div class="dark" data-theme="dark">

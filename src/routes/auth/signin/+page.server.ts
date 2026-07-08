@@ -15,11 +15,9 @@ export const actions = {
 			});
 
 			if (error) {
-				console.log('login with google error', error);
 				return fail(500, { message: 'Server error. Try again later.', success: false });
 			}
 
-			console.log('data ', data);
 
 			throw redirect(303, data.url);
 		}
